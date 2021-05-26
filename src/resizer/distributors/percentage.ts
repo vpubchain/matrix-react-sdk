@@ -17,6 +17,7 @@ limitations under the License.
 import Sizer from "../sizer";
 import FixedDistributor from "./fixed";
 import {IConfig} from "../resizer";
+import UIStore from "../../stores/UIStore";
 
 class PercentageSizer extends Sizer {
     public start(item: HTMLElement) {
@@ -25,20 +26,27 @@ class PercentageSizer extends Sizer {
         } else {
             item.style.minWidth = null;
         }
+        UIStore.instance.trackElementDimensions("PercentazeSizer", item);
+        UIStore.instance.trackElementDimensions("PercentazeSizerOffsetParent", item.offsetParent);
     }
 
     public finish(item: HTMLElement) {
-        const parent = item.offsetParent as HTMLElement;
+        const itemDimensions = UIStore.instance.getElementDimensions("PercentazeSizer");
+        const parentDimensions = UIStore.instance.getElementDimensions("PercentazeSizerOffsetParent");
+
         if (!parent) return;
         if (this.vertical) {
-            const p = ((item.offsetHeight / parent.offsetHeight) * 100).toFixed(2) + "%";
+            const p = ((itemDimensions.height / parentDimensions.height) * 100).toFixed(2) + "%";
             item.style.minHeight = p;
             item.style.height = p;
         } else {
-            const p = ((item.offsetWidth / parent.offsetWidth) * 100).toFixed(2) + "%";
+            const p = ((itemDimensions.width / parentDimensions.width) * 100).toFixed(2) + "%";
             item.style.minWidth = p;
             item.style.width = p;
         }
+
+        UIStore.instance.stopTrackingElementDimensions("PercentazeSizer");
+        UIStore.instance.stopTrackingElementDimensions("PercentazeSizerOffsetParent");
     }
 }
 

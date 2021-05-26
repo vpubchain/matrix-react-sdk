@@ -62,6 +62,7 @@ import {replaceableComponent} from "../../utils/replaceableComponent";
 import CallHandler, { CallHandlerEvent } from '../../CallHandler';
 import { MatrixCall } from 'matrix-js-sdk/src/webrtc/call';
 import AudioFeedArrayForCall from '../views/voip/AudioFeedArrayForCall';
+import UIStore, { UI_EVENTS } from '../../stores/UIStore';
 
 // We need to fetch each pinned message individually (if we don't already have it)
 // so each pinned message may trigger a request. Limit the number per room for sanity.
@@ -227,11 +228,11 @@ class LoggedInView extends React.Component<IProps, IState> {
     };
 
     _createResizer() {
-        let size;
         let collapsed;
+        const toggleSize = 206 - 50;
         const collapseConfig: ICollapseConfig = {
             // TODO decrease this once Spaces launches as it'll no longer need to include the 56px Community Panel
-            toggleSize: 206 - 50,
+            toggleSize,
             onCollapsed: (_collapsed) => {
                 collapsed = _collapsed;
                 if (_collapsed) {
@@ -241,21 +242,16 @@ class LoggedInView extends React.Component<IProps, IState> {
                     dis.dispatch({action: "show_left_panel"});
                 }
             },
-            onResized: (_size) => {
-                size = _size;
-                this.props.resizeNotifier.notifyLeftHandleResized();
-            },
-            onResizeStart: () => {
-                this.props.resizeNotifier.startResizing();
-            },
-            onResizeStop: () => {
-                if (!collapsed) window.localStorage.setItem("mx_lhs_size", '' + size);
-                this.props.resizeNotifier.stopResizing();
-            },
             isItemCollapsed: domNode => {
                 return domNode.classList.contains("mx_LeftPanel_minimized");
             },
         };
+        UIStore.instance.on("LeftPanel", (type, entry) => {
+            if (type === UI_EVENTS.Resize && !collapsed) {
+                const width = entry.contentRect.width;
+                window.localStorage.setItem("mx_lhs_size", width.toString());
+            }
+        });
         const resizer = new Resizer(this._resizeContainer.current, CollapseDistributor, collapseConfig);
         resizer.setClassNames({
             handle: "mx_ResizeHandle",
@@ -270,7 +266,9 @@ class LoggedInView extends React.Component<IProps, IState> {
         if (isNaN(lhsSize)) {
             lhsSize = 350;
         }
-        this.resizer.forHandleAt(0).resize(lhsSize);
+        if (lhsSize > 0) {
+            this.resizer.forHandleAt(0).resize(lhsSize);
+        }
     }
 
     onAccountData = (event) => {

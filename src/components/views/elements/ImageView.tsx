@@ -33,6 +33,7 @@ import {replaceableComponent} from "../../../utils/replaceableComponent";
 import {RoomPermalinkCreator} from "../../../utils/permalinks/Permalinks"
 import {MatrixEvent} from "matrix-js-sdk/src/models/event";
 import {normalizeWheelEvent} from "../../../utils/Mouse";
+import UIStore from "../../../stores/UIStore";
 
 // Max scale to keep gaps around the image
 const MAX_SCALE = 0.95;
@@ -108,20 +109,25 @@ export default class ImageView extends React.Component<IProps, IState> {
         window.addEventListener("resize", this.calculateZoom);
         // After the image loads for the first time we want to calculate the zoom
         this.image.current.addEventListener("load", this.calculateZoom);
+        UIStore.instance.trackElementDimensions("ImageView", this.imageWrapper.current);
     }
 
     componentWillUnmount() {
         this.focusLock.current.removeEventListener('wheel', this.onWheel);
         window.removeEventListener("resize", this.calculateZoom);
         this.image.current.removeEventListener("load", this.calculateZoom);
+        UIStore.instance.stopTrackingElementDimensions("ImageView");
     }
 
     private calculateZoom = () => {
         const image = this.image.current;
+
+        const dimensions = UIStore.instance.getElementDimensions("ImageView");
+
         const imageWrapper = this.imageWrapper.current;
 
-        const zoomX = imageWrapper.clientWidth / image.naturalWidth;
-        const zoomY = imageWrapper.clientHeight / image.naturalHeight;
+        const zoomX = dimensions.width / image.naturalWidth;
+        const zoomY = dimensions.height / image.naturalHeight;
 
         // If the image is smaller in both dimensions set its the zoom to 1 to
         // display it in its original size

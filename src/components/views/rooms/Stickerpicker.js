@@ -31,6 +31,7 @@ import AccessibleTooltipButton from "../elements/AccessibleTooltipButton";
 import {Action} from "../../../dispatcher/actions";
 import {WidgetMessagingStore} from "../../../stores/widgets/WidgetMessagingStore";
 import {replaceableComponent} from "../../../utils/replaceableComponent";
+import UIStore from '../../../stores/UIStore';
 
 // This should be below the dialog level (4000), but above the rest of the UI (1000-2000).
 // We sit in a context menu, so this should be given to the context menu.
@@ -319,7 +320,7 @@ export default class Stickerpicker extends React.PureComponent {
 
         // When the sticker picker would be displayed off of the viewport, adjust x
         //  (302 = width of context menu, including borders)
-        x = Math.min(x, document.body.clientWidth - (302 + rightPad));
+        x = Math.min(x, UIStore.instance.windowWidth - (302 + rightPad));
 
         // Offset the chevron location, which is relative to the left of the context menu
         //  (10 = offset when context menu would not be displayed off viewport)

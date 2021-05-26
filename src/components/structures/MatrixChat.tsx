@@ -1821,10 +1821,10 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
         const LHS_THRESHOLD = 1000;
         const width = UIStore.instance.windowWidth;
 
-        if (width <= LHS_THRESHOLD && !this.state.collapseLhs) {
+        if (width <= LHS_THRESHOLD && this.state.collapseLhs) {
             dis.dispatch({ action: 'hide_left_panel' });
         }
-        if (width > LHS_THRESHOLD && this.state.collapseLhs) {
+        if (width > LHS_THRESHOLD && !this.state.collapseLhs) {
             dis.dispatch({ action: 'show_left_panel' });
         }
 

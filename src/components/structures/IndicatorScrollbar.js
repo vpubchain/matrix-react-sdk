@@ -18,6 +18,7 @@ import React, { createRef } from "react";
 import PropTypes from "prop-types";
 import AutoHideScrollbar from "./AutoHideScrollbar";
 import {replaceableComponent} from "../../utils/replaceableComponent";
+import UIStore from "../../stores/UIStore";
 
 @replaceableComponent("structures.IndicatorScrollbar")
 export default class IndicatorScrollbar extends React.Component {
@@ -66,18 +67,22 @@ export default class IndicatorScrollbar extends React.Component {
     }
 
     componentDidMount() {
-        this.current.addEventListener("scroll", this.checkOverflow);
-        this.checkOverflow();
+        this._scrollElement.current.addEventListener("scroll", this.checkOverflow);
+        UIStore.instance.trackElementDimensions("IndicatorScrollbar", this._scrollElement.current);
+        UIStore.instance.once("IndicatorScrollbar", () => {
+            this.checkOverflow();
+        });
     }
 
     checkOverflow() {
+        const dimensions = UIStore.instance.getElementDimensions("IndicatorScrollbar");
         const el = this._scrollElement.current;
         const hasTopOverflow = el.scrollTop > 0;
         const hasBottomOverflow = el.scrollHeight >
             (el.scrollTop + el.clientHeight);
         const hasLeftOverflow = el.scrollLeft > 0;
         const hasRightOverflow = el.scrollWidth >
-            (el.scrollLeft + el.clientWidth);
+            (el.scrollLeft + dimensions.width);
 
         if (hasTopOverflow) {
             el.classList.add("mx_IndicatorScrollbar_topOverflow");
@@ -117,6 +122,7 @@ export default class IndicatorScrollbar extends React.Component {
 
     componentWillUnmount() {
         this._scrollElement.current.removeEventListener("scroll", this.checkOverflow);
+        UIStore.instance.stopTrackingElementDimensions("IndicatorScrollbar");
     }
 
     onMouseWheel = (e) => {

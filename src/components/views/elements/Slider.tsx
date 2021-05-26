@@ -16,6 +16,7 @@ limitations under the License.
 
 import * as React from 'react';
 import {replaceableComponent} from "../../../utils/replaceableComponent";
+import UIStore from "../../../stores/UIStore";
 
 interface IProps {
     // A callback for the selected value
@@ -37,6 +38,8 @@ interface IProps {
 
 @replaceableComponent("views.elements.Slider")
 export default class Slider extends React.Component<IProps> {
+    private ref: React.RefObject<HTMLHRElement> = React.createRef();
+
     // offset is a terrible inverse approximation.
     // if the values represents some function f(x) = y where x is the
     // index of the array and y = values[x] then offset(f, y) = x
@@ -72,6 +75,23 @@ export default class Slider extends React.Component<IProps> {
         return 100 * (closest - 1 + linearInterpolation) * intervalWidth;
     }
 
+    onClick(event: React.MouseEvent) {
+        const sliderDimensions = UIStore.instance.getElementDimensions("Slider");
+        // nativeEvent is safe to use because https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/offsetX
+        // is supported by all modern browsers
+        const relativeClick = (event.nativeEvent.offsetX / sliderDimensions.width);
+        const nearestValue = this.props.values[Math.round(relativeClick * (this.props.values.length - 1))];
+        this.props.onSelectionChange(nearestValue);
+    }
+
+    componentDidMount() {
+        UIStore.instance.trackElementDimensions("Slider", this.ref.current);
+    }
+
+    componentWillUnmount() {
+        UIStore.instance.stopTrackingElementDimensions("Slider");
+    }
+
     render(): React.ReactNode {
         const dots = this.props.values.map(v => <Dot
             active={v <= this.props.value}
@@ -94,7 +114,7 @@ export default class Slider extends React.Component<IProps> {
         return <div className="mx_Slider">
             <div>
                 <div className="mx_Slider_bar">
-                    <hr onClick={this.props.disabled ? () => {} : this.onClick.bind(this)} />
+                    <hr onClick={this.props.disabled ? () => {} : this.onClick.bind(this)} ref={this.ref} />
                     { selection }
                 </div>
                 <div className="mx_Slider_dotContainer">
@@ -102,15 +122,6 @@ export default class Slider extends React.Component<IProps> {
                 </div>
             </div>
         </div>;
-    }
-
-    onClick(event: React.MouseEvent) {
-        const width = (event.target as HTMLElement).clientWidth;
-        // nativeEvent is safe to use because https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/offsetX
-        // is supported by all modern browsers
-        const relativeClick = (event.nativeEvent.offsetX / width);
-        const nearestValue = this.props.values[Math.round(relativeClick * (this.props.values.length - 1))];
-        this.props.onSelectionChange(nearestValue);
     }
 }
 
