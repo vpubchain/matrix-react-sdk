@@ -20,6 +20,7 @@ import Timer from '../../utils/Timer';
 import AutoHideScrollbar from "./AutoHideScrollbar";
 import {replaceableComponent} from "../../utils/replaceableComponent";
 import {getKeyBindingsManager, RoomAction} from "../../KeyBindingsManager";
+import UIStore from "../../stores/UIStore";
 
 const DEBUG_SCROLL = false;
 
@@ -159,6 +160,8 @@ export default class ScrollPanel extends React.Component {
         onScroll: function() {},
     };
 
+    ref = createRef();
+
     constructor(props) {
         super(props);
 
@@ -175,6 +178,7 @@ export default class ScrollPanel extends React.Component {
 
     componentDidMount() {
         this.checkScroll();
+        UIStore.instance.trackElementDimensions("ScrollPanel", this.ref.current);
     }
 
     componentDidUpdate() {
@@ -197,6 +201,7 @@ export default class ScrollPanel extends React.Component {
         if (this.props.resizeNotifier) {
             this.props.resizeNotifier.removeListener("middlePanelResizedNoisy", this.onResize);
         }
+        UIStore.instance.stopTrackingElementDimensions("ScrollPanel");
     }
 
     onScroll = ev => {
@@ -784,18 +789,14 @@ export default class ScrollPanel extends React.Component {
             throw new Error("ScrollPanel._getScrollNode called when unmounted");
         }
 
-        if (!this._divScroll) {
+        if (!this.ref.current) {
             // Likewise, we should have the ref by this point, but if not
             // turn the NPE into something meaningful.
             throw new Error("ScrollPanel._getScrollNode called before AutoHideScrollbar ref collected");
         }
 
-        return this._divScroll;
+        return this.ref.current;
     }
-
-    _collectScroll = divScroll => {
-        this._divScroll = divScroll;
-    };
 
     /**
     Mark the bottom offset of the last tile so we can balance it out when
@@ -886,7 +887,7 @@ export default class ScrollPanel extends React.Component {
         // list-style-type: none; is no longer a list
         return (
             <AutoHideScrollbar
-                wrappedRef={this._collectScroll}
+                ref={this.ref}
                 onScroll={this.onScroll}
                 className={`mx_ScrollPanel ${this.props.className}`}
                 style={this.props.style}

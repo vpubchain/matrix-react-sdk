@@ -232,10 +232,7 @@ class EmojiPicker extends React.Component<IProps, IState> {
                 <Search query={this.state.filter} onChange={this.onChangeFilter} onEnter={this.onEnterFilter} />
                 <AutoHideScrollbar
                     className="mx_EmojiPicker_body"
-                    wrappedRef={ref => {
-                        // @ts-ignore - AutoHideScrollbar should accept a RefObject or fall back to its own instead
-                        this.bodyRef.current = ref
-                    }}
+                    ref={this.bodyRef}
                     onScroll={this.onScroll}
                 >
                     {this.categories.map(category => {

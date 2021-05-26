@@ -14,17 +14,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import dis from '../../../dispatcher/dispatcher';
 import ICanvasEffect from '../../../effects/ICanvasEffect';
 import { CHAT_EFFECTS } from '../../../effects'
 import UIStore, { UI_EVENTS } from "../../../stores/UIStore";
 
-interface IProps {
-    roomWidth: number;
-}
-
-const EffectsOverlay: FunctionComponent<IProps> = ({ roomWidth }) => {
+const EffectsOverlay: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const effectsRef = useRef<Map<string, ICanvasEffect>>(new Map<string, ICanvasEffect>());
 
@@ -45,11 +41,19 @@ const EffectsOverlay: FunctionComponent<IProps> = ({ roomWidth }) => {
     };
 
     useEffect(() => {
-        const resize = () => {
-            if (canvasRef.current && canvasRef.current?.height !== UIStore.instance.windowHeight) {
-                canvasRef.current.height = UIStore.instance.windowHeight;
+        function onResize(type, entry) {
+            if (type === UI_EVENTS.Resize) {
+                canvasRef.current.width = entry.contentRect.width;
+                canvasRef.current.height = entry.contentRect.height;
             }
+        }
+        UIStore.instance.on("RoomView", onResize);
+        return () => {
+            UIStore.instance.removeListener("RoomView", onResize);
         };
+    });
+
+    useEffect(() => {
         const onAction = (payload: { action: string }) => {
             const actionPrefix = 'effects.';
             if (payload.action.indexOf(actionPrefix) === 0) {
@@ -58,13 +62,9 @@ const EffectsOverlay: FunctionComponent<IProps> = ({ roomWidth }) => {
             }
         }
         const dispatcherRef = dis.register(onAction);
-        const canvas = canvasRef.current;
-        canvas.height = UIStore.instance.windowHeight;
-        UIStore.instance.on(UI_EVENTS.Resize, resize);
 
         return () => {
             dis.unregister(dispatcherRef);
-            UIStore.instance.off(UI_EVENTS.Resize, resize);
             // eslint-disable-next-line react-hooks/exhaustive-deps
             const currentEffects = effectsRef.current; // this is not a react node ref, warning can be safely ignored
             for (const effect in currentEffects) {
@@ -79,7 +79,6 @@ const EffectsOverlay: FunctionComponent<IProps> = ({ roomWidth }) => {
     return (
         <canvas
             ref={canvasRef}
-            width={roomWidth}
             style={{
                 display: 'block',
                 zIndex: 999999,

@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import React from 'react';
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import {Room} from "matrix-js-sdk/src/models/room";
 
@@ -36,9 +36,12 @@ import RoomSummaryCard from "../views/right_panel/RoomSummaryCard";
 import WidgetCard from "../views/right_panel/WidgetCard";
 import {replaceableComponent} from "../../utils/replaceableComponent";
 import SettingsStore from "../../settings/SettingsStore";
+import UIStore from "../../stores/UIStore";
 
 @replaceableComponent("structures.RightPanel")
 export default class RightPanel extends React.Component {
+    ref = createRef();
+
     static get propTypes() {
         return {
             room: PropTypes.instanceOf(Room), // if showing panels for a given room, this is set
@@ -119,6 +122,7 @@ export default class RightPanel extends React.Component {
         const cli = this.context;
         cli.on("RoomState.members", this.onRoomStateMember);
         this._initGroupStore(this.props.groupId);
+        UIStore.instance.trackElementDimensions("RightPanel", this.ref.current);
     }
 
     componentWillUnmount() {
@@ -127,6 +131,7 @@ export default class RightPanel extends React.Component {
             this.context.removeListener("RoomState.members", this.onRoomStateMember);
         }
         this._unregisterGroupStore(this.props.groupId);
+        UIStore.instance.stopTrackingElementDimensions("RightPanel");
     }
 
     // TODO: [REACT-WARNING] Replace with appropriate lifecycle event
@@ -313,7 +318,7 @@ export default class RightPanel extends React.Component {
         }
 
         return (
-            <aside className="mx_RightPanel dark-panel" id="mx_RightPanel">
+            <aside className="mx_RightPanel dark-panel" id="mx_RightPanel" ref={this.ref}>
                 { panel }
             </aside>
         );

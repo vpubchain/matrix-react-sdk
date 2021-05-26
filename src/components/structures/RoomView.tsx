@@ -543,6 +543,10 @@ export default class RoomView extends React.Component<IProps, IState> {
             }
         }
 
+        if (!this.state.roomLoading && !UIStore.instance.isTrackingElementDimensions("RoomView")) {
+            UIStore.instance.trackElementDimensions("RoomView", this.roomView.current);
+        }
+
         // Note: We check the ref here with a flag because componentDidMount, despite
         // documentation, does not define our messagePanel ref. It looks like our spinner
         // in render() prevents the ref from being set on first mount, so we try and
@@ -640,6 +644,8 @@ export default class RoomView extends React.Component<IProps, IState> {
         // Tinter.tint(); // reset colourscheme
 
         SettingsStore.unwatchSetting(this.layoutWatcherRef);
+
+        UIStore.instance.stopTrackingElementDimensions("RoomView");
     }
 
     private onLayoutChange = () => {
@@ -2037,7 +2043,7 @@ export default class RoomView extends React.Component<IProps, IState> {
             <RoomContext.Provider value={this.state}>
                 <main className={mainClasses} ref={this.roomView} onKeyDown={this.onReactKeyDown}>
                     {showChatEffects && this.roomView.current &&
-                        <EffectsOverlay roomWidth={this.roomView.current.offsetWidth} />
+                        <EffectsOverlay />
                     }
                     <ErrorBoundary>
                         <RoomHeader
