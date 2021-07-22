@@ -196,6 +196,7 @@ limitations under the License.
 }
 
 .mx_CallView_header {
+    pointer-events: all;
     height: 44px;
     display: flex;
     flex-direction: row;
