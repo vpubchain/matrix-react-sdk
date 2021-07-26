@@ -25,6 +25,8 @@ import MatrixClientContext from "../../../contexts/MatrixClientContext";
 import { MatrixClientPeg } from "../../../MatrixClientPeg";
 import { isNullOrUndefined } from "matrix-js-sdk/src/utils";
 import { replaceableComponent } from "../../../utils/replaceableComponent";
+import { PictureInPictureDragger } from '../voip/PictureInPictureDragger'
+
 
 // Shamelessly ripped off Modal.js.  There's probably a better way
 // of doing reusable widgets like dialog boxes & menus where we go and
@@ -67,6 +69,9 @@ export default class PersistedElement extends React.Component {
 
         // z-index for the element. Defaults to 9.
         zIndex: PropTypes.number,
+        draggable: PropTypes.bool,
+        // FIXME: This should be a IApp type after TSing it.
+        app: PropTypes.any,
     };
 
     constructor() {
@@ -154,11 +159,20 @@ export default class PersistedElement extends React.Component {
     }
 
     renderApp() {
-        const content = <MatrixClientContext.Provider value={MatrixClientPeg.get()}>
-            <div ref={this.collectChild} style={this.props.style}>
-                { this.props.children }
-            </div>
-        </MatrixClientContext.Provider>;
+        const content = (
+            <MatrixClientContext.Provider value={MatrixClientPeg.get()}>
+                <div class={this.props.draggable ? "mx_CallContainer" : ''}>
+                <PictureInPictureDragger
+                draggable={this.props.draggable} app={this.props.app}>
+                        <div className={this.props.draggable ? "mx_CallView mx_CallView_pip": ''}>
+                        <div className={this.props.draggable ? "mx_CallView_content mx_CallView_video" : ''} ref={this.collectChild} >
+                            { this.props.children }
+                        </div>
+                    </div>
+                </PictureInPictureDragger>
+                </div>
+            </MatrixClientContext.Provider>
+        );
 
         ReactDOM.render(content, getOrCreateContainer('mx_persistedElement_'+this.props.persistKey));
     }
@@ -172,14 +186,27 @@ export default class PersistedElement extends React.Component {
         if (!child || !parent) return;
 
         const parentRect = parent.getBoundingClientRect();
-        Object.assign(child.style, {
+        let styles = {
             zIndex: isNullOrUndefined(this.props.zIndex) ? 9 : this.props.zIndex,
-            position: 'absolute',
-            top: parentRect.top + 'px',
-            left: parentRect.left + 'px',
             width: parentRect.width + 'px',
             height: parentRect.height + 'px',
-        });
+            position: 'initial',
+            left: 'auto',
+            top: 'auto',
+            width: 'auto',
+            height: 'auto',
+        }
+        if (!this.props.draggable) {
+            styles = {
+                ...styles,
+                position: 'absolute',
+                top: parentRect.top + 'px',
+                left: parentRect.left + 'px',
+                width: parentRect.width + 'px',
+                height: parentRect.height + 'px',
+            }
+        }
+        Object.assign(child.style, styles);
     }, 100, { trailing: true, leading: true });
 
     render() {
