@@ -40,8 +40,6 @@ import RoomWidgetContextMenu from "../context_menus/WidgetContextMenu";
 import WidgetAvatar from "../avatars/WidgetAvatar";
 import { replaceableComponent } from "../../../utils/replaceableComponent";
 
-
-
 @replaceableComponent("views.elements.AppTile")
 export default class AppTile extends React.Component {
     constructor(props) {
@@ -409,13 +407,13 @@ export default class AppTile extends React.Component {
                     // Also wrap the PersistedElement in a div to fix the height, otherwise
                     // AppTile's border is in the wrong place
                     appTileBody = <div className="mx_AppTile_persistedWrapper">
-                            <PersistedElement
-                                app={this.props.app}
-                                draggable={this.props.miniMode}
-                                persistKey={this._persistKey}
-                            >
+                        <PersistedElement
+                            app={this.props.app}
+                            draggable={this.props.miniMode}
+                            persistKey={this._persistKey}
+                        >
                             { appTileBody }
-                            </PersistedElement>
+                        </PersistedElement>
                     </div>;
                 }
             }
