@@ -333,6 +333,7 @@ export default class CallPreview extends React.Component<IProps, IState> {
                             translateY(${translatePixelsY})`,
             };
 
+            // TODO: Use PictureInPictureDragger.tsx here instead of having duplicated logic
             return (
                 <div
                     className="mx_CallPreview"
