@@ -25,7 +25,7 @@ import WidgetAvatar from '../../avatars/WidgetAvatar';
 import { IApp } from '../../../../stores/WidgetStore';
 import WidgetUtils from '../../../../utils/WidgetUtils';
 
-const callTypeTranslationByType: Record<CallType | 'widget', () => string> = {
+const callTypeTranslationByType: Record<CallType | 'widget', (app?: IApp) => string> = {
   [CallType.Video]: () => _t("Video Call"),
   [CallType.Voice]: () => _t("Audio Call"),
   'widget': (app: IApp) => WidgetUtils.getWidgetName(app),
