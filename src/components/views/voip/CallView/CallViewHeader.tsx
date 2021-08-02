@@ -34,9 +34,9 @@ const callTypeTranslationByType: Record<CallType | 'widget', (app?: IApp) => str
 interface CallViewHeaderProps {
   pipMode: boolean;
   type: CallType | 'widget';
-  callRooms?: Room[]
+  callRooms?: Room[];
   app?: IApp;
-  onPipMouseDown: (event: React.MouseEvent<Element, MouseEvent>) => void
+  onPipMouseDown: (event: React.MouseEvent<Element, MouseEvent>) => void;
 }
 
 const onRoomAvatarClick = (roomId: string) => {
@@ -61,17 +61,19 @@ const onExpandClick = (roomId: string) => {
 };
 
 type CallControlsProps = Pick<CallViewHeaderProps, 'pipMode' | 'type'> & {
-  roomId: string
+  roomId: string;
 };
 function CallControls({ pipMode = false, type, roomId }: CallControlsProps) {
     return <div className="mx_CallView_header_controls">
-        {(pipMode && type === CallType.Video) &&
+        { (pipMode && type === CallType.Video) &&
       <div className="mx_CallView_header_button mx_CallView_header_button_fullscreen"
-          onClick={onFullscreenClick} title={_t("Fill Screen")}
-      />}
-        {pipMode && <div className="mx_CallView_header_button mx_CallView_header_button_expand"
-            onClick={() => onExpandClick(roomId)} title={_t("Return to call")}
-        />}
+          onClick={onFullscreenClick}
+          title={_t("Fill Screen")}
+      /> }
+        { pipMode && <div className="mx_CallView_header_button mx_CallView_header_button_expand"
+            onClick={() => onExpandClick(roomId)}
+            title={_t("Return to call")}
+        /> }
     </div>;
 }
 function SecondaryCallInfo({ callRoom }: {callRoom: Room}) {
@@ -79,7 +81,7 @@ function SecondaryCallInfo({ callRoom }: {callRoom: Room}) {
         <AccessibleButton element='span' onClick={() => onRoomAvatarClick(callRoom.roomId)}>
             <RoomAvatar room={callRoom} height={16} width={16} />
             <span className="mx_CallView_secondaryCall_roomName">
-                {_t("%(name)s on hold", { name: callRoom.name })}
+                { _t("%(name)s on hold", { name: callRoom.name }) }
             </span>
         </AccessibleButton>
     </span>;
@@ -108,8 +110,8 @@ export function CallViewHeader({
     const roomId = app ? app.roomId : callRoom.roomId;
     if (!pipMode) {
         return <div className="mx_CallView_header">
-            <div className="mx_CallView_header_phoneIcon"></div>
-            <span className="mx_CallView_header_callType">{callTypeText}</span>
+            <div className="mx_CallView_header_phoneIcon" />
+            <span className="mx_CallView_header_callType">{ callTypeText }</span>
             <CallControls roomId={roomId} pipMode={pipMode} type={type} />
         </div>;
     }
@@ -118,13 +120,13 @@ export function CallViewHeader({
         onMouseDown={onPipMouseDown}
     >
         <AccessibleButton onClick={() => onRoomAvatarClick(roomId)}>
-            {avatar}
+            { avatar }
         </AccessibleButton>
         <div className="mx_CallView_header_callInfo">
-            <div className="mx_CallView_header_roomName">{callRoomName}</div>
+            <div className="mx_CallView_header_roomName">{ callRoomName }</div>
             <div className="mx_CallView_header_callTypeSmall">
-                {callTypeText}
-                {onHoldCallRoom && <SecondaryCallInfo callRoom={onHoldCallRoom} />}
+                { callTypeText }
+                { onHoldCallRoom && <SecondaryCallInfo callRoom={onHoldCallRoom} /> }
             </div>
         </div>
         <CallControls roomId={roomId} pipMode={pipMode} type={type} />
