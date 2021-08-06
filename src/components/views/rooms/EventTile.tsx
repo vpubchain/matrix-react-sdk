@@ -328,7 +328,7 @@ export default class EventTile extends React.Component<IProps, IState> {
 
     static defaultProps = {
         // no-op function because onHeightChanged is optional yet some sub-components assume its existence
-        onHeightChanged: function() {},
+        onHeightChanged: function () { },
         layout: Layout.Group,
     };
 
@@ -732,7 +732,7 @@ export default class EventTile extends React.Component<IProps, IState> {
             if (remainder > 0) {
                 remText = <span className="mx_EventTile_readAvatarRemainder"
                     onClick={this.toggleAllReadAvatars}
-                    style={{ right: "calc(" + toRem(-left) + " + " + receiptOffset + "px)" }}>{ remainder }+
+                    style={{ right: "calc(" + toRem(-left) + " + " + receiptOffset + "px)" }}>{remainder}+
                 </span>;
             }
         }
@@ -740,8 +740,8 @@ export default class EventTile extends React.Component<IProps, IState> {
         return (
             <div className="mx_EventTile_msgOption">
                 <span className="mx_EventTile_readAvatars">
-                    { remText }
-                    { avatars }
+                    {remText}
+                    {avatars}
                 </span>
             </div>
         );
@@ -770,7 +770,7 @@ export default class EventTile extends React.Component<IProps, IState> {
 
     onPermalinkClicked = e => {
         // This allows the permalink to be opened in a new tab/window or copied as
-        // matrix.to, but also for it to enable routing within Element when clicked.
+        // im.to.vpubchain.net, but also for it to enable routing within Element when clicked.
         e.preventDefault();
         dis.dispatch({
             action: 'view_room',
@@ -865,7 +865,7 @@ export default class EventTile extends React.Component<IProps, IState> {
             console.warn(`Event type not supported: type:${mxEvent.getType()} isState:${mxEvent.isState()}`);
             return <div className="mx_EventTile mx_EventTile_info mx_MNoticeBody">
                 <div className="mx_EventTile_line">
-                    { _t('This event could not be displayed') }
+                    {_t('This event could not be displayed')}
                 </div>
             </div>;
         }
@@ -985,9 +985,9 @@ export default class EventTile extends React.Component<IProps, IState> {
 
         const showTimestamp = this.props.mxEvent.getTs()
             && (this.props.alwaysShowTimestamps
-            || this.props.last
-            || this.state.hover
-            || this.state.actionBarFocused);
+                || this.props.last
+                || this.state.hover
+                || this.state.actionBarFocused);
 
         const timestamp = showTimestamp ?
             <MessageTimestamp showTwelveHour={this.props.isTwelveHour} ts={this.props.mxEvent.getTs()} /> : null;
@@ -995,17 +995,17 @@ export default class EventTile extends React.Component<IProps, IState> {
         const keyRequestHelpText =
             <div className="mx_EventTile_keyRequestInfo_tooltip_contents">
                 <p>
-                    { this.state.previouslyRequestedKeys ?
-                        _t( 'Your key share request has been sent - please check your other sessions ' +
+                    {this.state.previouslyRequestedKeys ?
+                        _t('Your key share request has been sent - please check your other sessions ' +
                             'for key share requests.') :
-                        _t( 'Key share requests are sent to your other sessions automatically. If you ' +
+                        _t('Key share requests are sent to your other sessions automatically. If you ' +
                             'rejected or dismissed the key share request on your other sessions, click ' +
                             'here to request the keys for this session again.')
                     }
                 </p>
                 <p>
-                    { _t( 'If your other sessions do not have the key for this message you will not ' +
-                            'be able to decrypt them.')
+                    {_t('If your other sessions do not have the key for this message you will not ' +
+                        'be able to decrypt them.')
                     }
                 </p>
             </div>;
@@ -1014,13 +1014,13 @@ export default class EventTile extends React.Component<IProps, IState> {
             _t(
                 '<requestLink>Re-request encryption keys</requestLink> from your other sessions.',
                 {},
-                { 'requestLink': (sub) => <a onClick={this.onRequestKeysClick}>{ sub }</a> },
+                { 'requestLink': (sub) => <a onClick={this.onRequestKeysClick}>{sub}</a> },
             );
 
         const keyRequestInfo = isEncryptionFailure && !isRedacted ?
             <div className="mx_EventTile_keyRequestInfo">
                 <span className="mx_EventTile_keyRequestInfo_text">
-                    { keyRequestInfoContent }
+                    {keyRequestInfoContent}
                 </span>
                 <TooltipButton helpText={keyRequestHelpText} />
             </div> : null;
@@ -1038,7 +1038,7 @@ export default class EventTile extends React.Component<IProps, IState> {
             onClick={this.onPermalinkClicked}
             aria-label={formatTime(new Date(this.props.mxEvent.getTs()), this.props.isTwelveHour)}
         >
-            { timestamp }
+            {timestamp}
         </a>;
 
         const useIRCLayout = this.props.layout == Layout.IRC;
@@ -1065,14 +1065,14 @@ export default class EventTile extends React.Component<IProps, IState> {
                     <div className="mx_EventTile_roomName" key="mx_EventTile_roomName">
                         <RoomAvatar room={room} width={28} height={28} />
                         <a href={permalink} onClick={this.onPermalinkClicked}>
-                            { room ? room.name : '' }
+                            {room ? room.name : ''}
                         </a>
                     </div>,
                     <div className="mx_EventTile_senderDetails" key="mx_EventTile_senderDetails">
-                        { avatar }
+                        {avatar}
                         <a href={permalink} onClick={this.onPermalinkClicked}>
-                            { sender }
-                            { timestamp }
+                            {sender}
+                            {timestamp}
                         </a>
                     </div>,
                     <div className="mx_EventTile_line" key="mx_EventTile_line">
@@ -1111,8 +1111,8 @@ export default class EventTile extends React.Component<IProps, IState> {
                         onClick={this.onPermalinkClicked}
                     >
                         <div className="mx_EventTile_senderDetails">
-                            { sender }
-                            { timestamp }
+                            {sender}
+                            {timestamp}
                         </div>
                     </a>,
                 ]);
@@ -1145,14 +1145,14 @@ export default class EventTile extends React.Component<IProps, IState> {
                         "onMouseEnter": () => this.setState({ hover: true }),
                         "onMouseLeave": () => this.setState({ hover: false }),
                     }, <>
-                        { ircTimestamp }
-                        { sender }
-                        { ircPadlock }
-                        { avatar }
+                        {ircTimestamp}
+                        {sender}
+                        {ircPadlock}
+                        {avatar}
                         <div className="mx_EventTile_line" key="mx_EventTile_line">
-                            { groupTimestamp }
-                            { groupPadlock }
-                            { thread }
+                            {groupTimestamp}
+                            {groupPadlock}
+                            {thread}
                             <EventTileType ref={this.tile}
                                 mxEvent={this.props.mxEvent}
                                 replacingEventId={this.props.replacingEventId}
@@ -1164,12 +1164,12 @@ export default class EventTile extends React.Component<IProps, IState> {
                                 onHeightChanged={this.props.onHeightChanged}
                                 callEventGrouper={this.props.callEventGrouper}
                             />
-                            { keyRequestInfo }
-                            { actionBar }
-                            { this.props.layout === Layout.IRC && (reactionsRow) }
+                            {keyRequestInfo}
+                            {actionBar}
+                            {this.props.layout === Layout.IRC && (reactionsRow)}
                         </div>
-                        { this.props.layout !== Layout.IRC && (reactionsRow) }
-                        { msgOption }
+                        {this.props.layout !== Layout.IRC && (reactionsRow)}
+                        {msgOption}
                     </>)
                 );
             }
@@ -1273,7 +1273,7 @@ class E2ePadlock extends React.Component<IE2ePadlockProps, IE2ePadlockState> {
                 className={classes}
                 onMouseEnter={this.onHoverStart}
                 onMouseLeave={this.onHoverEnd}
-            >{ tooltip }</div>
+            >{tooltip}</div>
         );
     }
 }
@@ -1337,8 +1337,8 @@ class SentReceipt extends React.PureComponent<ISentReceiptProps, ISentReceiptSta
             <div className="mx_EventTile_msgOption">
                 <span className="mx_EventTile_readAvatars">
                     <span className={receiptClasses} onMouseEnter={this.onHoverStart} onMouseLeave={this.onHoverEnd}>
-                        { nonCssBadge }
-                        { tooltip }
+                        {nonCssBadge}
+                        {tooltip}
                     </span>
                 </span>
             </div>

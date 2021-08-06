@@ -227,7 +227,7 @@ export default class TextualBody extends React.Component<IBodyProps, IState> {
             highlight.highlightBlock(code);
         } else {
             // Only syntax highlight if there's a class starting with language-
-            const classes = code.className.split(/\s+/).filter(function(cl) {
+            const classes = code.className.split(/\s+/).filter(function (cl) {
                 return cl.startsWith('language-') && !cl.startsWith('language-_');
             });
 
@@ -257,13 +257,13 @@ export default class TextualBody extends React.Component<IBodyProps, IState> {
 
         // exploit that events are immutable :)
         return (nextProps.mxEvent.getId() !== this.props.mxEvent.getId() ||
-                nextProps.highlights !== this.props.highlights ||
-                nextProps.replacingEventId !== this.props.replacingEventId ||
-                nextProps.highlightLink !== this.props.highlightLink ||
-                nextProps.showUrlPreview !== this.props.showUrlPreview ||
-                nextProps.editState !== this.props.editState ||
-                nextState.links !== this.state.links ||
-                nextState.widgetHidden !== this.state.widgetHidden);
+            nextProps.highlights !== this.props.highlights ||
+            nextProps.replacingEventId !== this.props.replacingEventId ||
+            nextProps.highlightLink !== this.props.highlightLink ||
+            nextProps.showUrlPreview !== this.props.showUrlPreview ||
+            nextProps.editState !== this.props.editState ||
+            nextState.links !== this.state.links ||
+            nextState.widgetHidden !== this.state.widgetHidden);
     }
 
     private calculateUrlPreview(): void {
@@ -322,7 +322,7 @@ export default class TextualBody extends React.Component<IBodyProps, IState> {
                     links.push(node.getAttribute("href"));
                 }
             } else if (node.tagName === "PRE" || node.tagName === "CODE" ||
-                    node.tagName === "BLOCKQUOTE") {
+                node.tagName === "BLOCKQUOTE") {
                 continue;
             } else if (node.children && node.children.length) {
                 links = links.concat(this.findLinks(node.children));
@@ -351,7 +351,7 @@ export default class TextualBody extends React.Component<IBodyProps, IState> {
 
             // never preview permalinks (if anything we should give a smart
             // preview of the room/user they point to: nobody needs to be reminded
-            // what the matrix.to site looks like).
+            // what the im.to.vpubchain.net site looks like).
             if (isPermalinkHost(host)) return false;
 
             if (node.textContent.toLowerCase().trim().startsWith(host.toLowerCase())) {
@@ -419,9 +419,9 @@ export default class TextualBody extends React.Component<IBodyProps, IState> {
                 title: _t("Add an Integration"),
                 description:
                     <div>
-                        { _t("You are about to be taken to a third-party site so you can " +
+                        {_t("You are about to be taken to a third-party site so you can " +
                             "authenticate your account for use with %(integrationsUrl)s. " +
-                            "Do you wish to continue?", { integrationsUrl: integrationsUrl }) }
+                            "Do you wish to continue?", { integrationsUrl: integrationsUrl })}
                     </div>,
                 button: _t("Continue"),
                 onFinished(confirmed) {
@@ -450,10 +450,10 @@ export default class TextualBody extends React.Component<IBodyProps, IState> {
 
         const tooltip = <div>
             <div className="mx_Tooltip_title">
-                { _t("Edited at %(date)s", { date: dateString }) }
+                {_t("Edited at %(date)s", { date: dateString })}
             </div>
             <div className="mx_Tooltip_sub">
-                { _t("Click to view edits") }
+                {_t("Click to view edits")}
             </div>
         </div>;
 
@@ -464,7 +464,7 @@ export default class TextualBody extends React.Component<IBodyProps, IState> {
                 title={_t("Edited at %(date)s. Click to view edits.", { date: dateString })}
                 tooltip={tooltip}
             >
-                <span>{ `(${_t("edited")})` }</span>
+                <span>{`(${_t("edited")})`}</span>
             </AccessibleTooltipButton>
         );
     }
@@ -488,17 +488,17 @@ export default class TextualBody extends React.Component<IBodyProps, IState> {
         });
         if (this.props.replacingEventId) {
             body = <>
-                { body }
-                { this.renderEditedMarker() }
+                {body}
+                {this.renderEditedMarker()}
             </>;
         }
 
         if (this.props.highlightLink) {
-            body = <a href={this.props.highlightLink}>{ body }</a>;
+            body = <a href={this.props.highlightLink}>{body}</a>;
         } else if (content.data && typeof content.data["org.matrix.neb.starter_link"] === "string") {
             body = <a href="#"
                 onClick={this.onStarterLinkClick.bind(this, content.data["org.matrix.neb.starter_link"])}
-            >{ body }</a>;
+            >{body}</a>;
         }
 
         let widgets;
@@ -520,25 +520,25 @@ export default class TextualBody extends React.Component<IBodyProps, IState> {
                             className="mx_MEmoteBody_sender"
                             onClick={this.onEmoteSenderClick}
                         >
-                            { mxEvent.sender ? mxEvent.sender.name : mxEvent.getSender() }
+                            {mxEvent.sender ? mxEvent.sender.name : mxEvent.getSender()}
                         </span>
                         &nbsp;
-                        { body }
-                        { widgets }
+                        {body}
+                        {widgets}
                     </div>
                 );
             case MsgType.Notice:
                 return (
                     <div className="mx_MNoticeBody mx_EventTile_content">
-                        { body }
-                        { widgets }
+                        {body}
+                        {widgets}
                     </div>
                 );
             default: // including "m.text"
                 return (
                     <div className="mx_MTextBody mx_EventTile_content">
-                        { body }
-                        { widgets }
+                        {body}
+                        {widgets}
                     </div>
                 );
         }

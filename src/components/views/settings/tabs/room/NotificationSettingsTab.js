@@ -158,7 +158,7 @@ export default class NotificationsSettingsTab extends React.Component {
                             { _t("Reset") }
                         </AccessibleButton>
                     </div>
-                    <div>
+                    {/* <div>
                         <h3>{ _t("Set a new custom sound") }</h3>
                         <form autoComplete="off" noValidate={true}>
                             <input ref={this._soundUpload} className="mx_NotificationSound_soundUpload" type="file" onChange={this._onSoundUploadChanged.bind(this)} accept="audio/*" />
@@ -174,7 +174,7 @@ export default class NotificationsSettingsTab extends React.Component {
                             { _t("Save") }
                         </AccessibleButton>
                         <br />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         );

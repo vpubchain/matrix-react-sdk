@@ -16,11 +16,11 @@ limitations under the License.
 
 import PermalinkConstructor, { PermalinkParts } from "./PermalinkConstructor";
 
-export const host = "matrix.to";
+export const host = "im.to.vpubchain.net";
 export const baseUrl = `https://${host}`;
 
 /**
- * Generates matrix.to permalinks
+ * Generates im.to.vpubchain.net permalinks
  */
 export default class SpecPermalinkConstructor extends PermalinkConstructor {
     constructor() {
@@ -74,14 +74,14 @@ export default class SpecPermalinkConstructor extends PermalinkConstructor {
             return PermalinkParts.forGroup(entity);
         } else if (entity[0] === '#' || entity[0] === '!') {
             if (parts.length === 1) { // room without event permalink
-                const [roomId, query=""] = entity.split("?");
+                const [roomId, query = ""] = entity.split("?");
                 const via = query.split(/&?via=/g).filter(p => !!p);
                 return PermalinkParts.forRoom(roomId, via);
             }
 
             // rejoin the rest because v3 events can have slashes (annoyingly)
             const eventIdAndQuery = parts.length > 1 ? parts.slice(1).join('/') : "";
-            const [eventId, query=""] = eventIdAndQuery.split("?");
+            const [eventId, query = ""] = eventIdAndQuery.split("?");
             const via = query.split(/&?via=/g).filter(p => !!p);
 
             return PermalinkParts.forEvent(entity, eventId, via);

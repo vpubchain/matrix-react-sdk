@@ -25,7 +25,7 @@ import Pill from "../components/views/elements/Pill";
 import { parseAppLocalLink } from "./permalinks/Permalinks";
 
 /**
- * Recurses depth-first through a DOM tree, converting matrix.to links
+ * Recurses depth-first through a DOM tree, converting im.to.vpubchain.net links
  * into pills based on the context of a given room.  Returns a list of
  * the resulting React nodes so they can be unmounted rather than leaking.
  *
@@ -47,7 +47,7 @@ export function pillifyLinks(nodes: ArrayLike<Element>, mxEvent: MatrixEvent, pi
         if (node.tagName === "A" && node.getAttribute("href")) {
             const href = node.getAttribute("href");
             const parts = parseAppLocalLink(href);
-            // If the link is a (localised) matrix.to link, replace it with a pill
+            // If the link is a (localised) im.to.vpubchain.net link, replace it with a pill
             // We don't want to pill event permalinks, so those are ignored.
             if (parts && !parts.eventId) {
                 const pillContainer = document.createElement('span');

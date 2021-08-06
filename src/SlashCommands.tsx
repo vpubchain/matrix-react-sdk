@@ -89,7 +89,7 @@ export const CommandCategories = {
     "other": _td("Other"),
 };
 
-type RunFn = ((roomId: string, args: string, cmd: string) => {error: any} | {promise: Promise<any>});
+type RunFn = ((roomId: string, args: string, cmd: string) => { error: any } | { promise: Promise<any> });
 
 interface ICommandOpts {
     command: string;
@@ -167,7 +167,7 @@ export const Commands = [
         command: 'spoiler',
         args: '<message>',
         description: _td('Sends the given message as a spoiler'),
-        runFn: function(roomId, message) {
+        runFn: function (roomId, message) {
             return successSync(ContentHelpers.makeHtmlMessage(
                 message,
                 `<span data-mx-spoiler>${message}</span>`,
@@ -179,7 +179,7 @@ export const Commands = [
         command: 'shrug',
         args: '<message>',
         description: _td('Prepends ¯\\_(ツ)_/¯ to a plain-text message'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             let message = '¯\\_(ツ)_/¯';
             if (args) {
                 message = message + ' ' + args;
@@ -192,7 +192,7 @@ export const Commands = [
         command: 'tableflip',
         args: '<message>',
         description: _td('Prepends (╯°□°）╯︵ ┻━┻ to a plain-text message'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             let message = '(╯°□°）╯︵ ┻━┻';
             if (args) {
                 message = message + ' ' + args;
@@ -205,7 +205,7 @@ export const Commands = [
         command: 'unflip',
         args: '<message>',
         description: _td('Prepends ┬──┬ ノ( ゜-゜ノ) to a plain-text message'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             let message = '┬──┬ ノ( ゜-゜ノ)';
             if (args) {
                 message = message + ' ' + args;
@@ -218,7 +218,7 @@ export const Commands = [
         command: 'lenny',
         args: '<message>',
         description: _td('Prepends ( ͡° ͜ʖ ͡°) to a plain-text message'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             let message = '( ͡° ͜ʖ ͡°)';
             if (args) {
                 message = message + ' ' + args;
@@ -231,7 +231,7 @@ export const Commands = [
         command: 'plain',
         args: '<message>',
         description: _td('Sends a message as plain text, without interpreting it as markdown'),
-        runFn: function(roomId, messages) {
+        runFn: function (roomId, messages) {
             return successSync(ContentHelpers.makeTextMessage(messages));
         },
         category: CommandCategories.messages,
@@ -240,7 +240,7 @@ export const Commands = [
         command: 'html',
         args: '<message>',
         description: _td('Sends a message as html, without interpreting it as markdown'),
-        runFn: function(roomId, messages) {
+        runFn: function (roomId, messages) {
             return successSync(ContentHelpers.makeHtmlMessage(messages, messages));
         },
         category: CommandCategories.messages,
@@ -249,7 +249,7 @@ export const Commands = [
         command: 'ddg',
         args: '<query>',
         description: _td('Searches DuckDuckGo for results'),
-        runFn: function() {
+        runFn: function () {
             // TODO Don't explain this away, actually show a search UI here.
             Modal.createTrackedDialog('Slash Commands', '/ddg is not a command', ErrorDialog, {
                 title: _t('/ddg is not a command'),
@@ -264,7 +264,7 @@ export const Commands = [
         command: 'upgraderoom',
         args: '<new_version>',
         description: _td('Upgrades a room to a new version'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 const cli = MatrixClientPeg.get();
                 const room = cli.getRoom(roomId);
@@ -289,7 +289,7 @@ export const Commands = [
         command: 'nick',
         args: '<display_name>',
         description: _td('Changes your display nickname'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 return success(MatrixClientPeg.get().setDisplayName(args));
             }
@@ -302,7 +302,7 @@ export const Commands = [
         aliases: ['roomnick'],
         args: '<display_name>',
         description: _td('Changes your display nickname in the current room only'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 const cli = MatrixClientPeg.get();
                 const ev = cli.getRoom(roomId).currentState.getStateEvents('m.room.member', cli.getUserId());
@@ -320,7 +320,7 @@ export const Commands = [
         command: 'roomavatar',
         args: '[<mxc_url>]',
         description: _td('Changes the avatar of the current room'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             let promise = Promise.resolve(args);
             if (!args) {
                 promise = singleMxcUpload();
@@ -337,7 +337,7 @@ export const Commands = [
         command: 'myroomavatar',
         args: '[<mxc_url>]',
         description: _td('Changes your avatar in this current room only'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             const cli = MatrixClientPeg.get();
             const room = cli.getRoom(roomId);
             const userId = cli.getUserId();
@@ -363,7 +363,7 @@ export const Commands = [
         command: 'myavatar',
         args: '[<mxc_url>]',
         description: _td('Changes your avatar in all rooms'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             let promise = Promise.resolve(args);
             if (!args) {
                 promise = singleMxcUpload();
@@ -380,7 +380,7 @@ export const Commands = [
         command: 'topic',
         args: '[<topic>]',
         description: _td('Gets or sets the room topic'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             const cli = MatrixClientPeg.get();
             if (args) {
                 return success(cli.setRoomTopic(roomId, args));
@@ -405,7 +405,7 @@ export const Commands = [
         command: 'roomname',
         args: '<name>',
         description: _td('Sets the room name'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 return success(MatrixClientPeg.get().setRoomName(roomId, args));
             }
@@ -417,7 +417,7 @@ export const Commands = [
         command: 'invite',
         args: '<user-id> [<reason>]',
         description: _td('Invites user with given id to current room'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 const [address, reason] = args.split(/\s+(.+)/);
                 if (address) {
@@ -437,17 +437,17 @@ export const Commands = [
                                 'Slash Commands',
                                 'Identity server',
                                 QuestionDialog, {
-                                    title: _t("Use an identity server"),
-                                    description: <p>{ _t(
-                                        "Use an identity server to invite by email. " +
-                                        "Click continue to use the default identity server " +
-                                        "(%(defaultIdentityServerName)s) or manage in Settings.",
-                                        {
-                                            defaultIdentityServerName: abbreviateUrl(defaultIdentityServerUrl),
-                                        },
-                                    ) }</p>,
-                                    button: _t("Continue"),
-                                },
+                                title: _t("Use an identity server"),
+                                description: <p>{_t(
+                                    "Use an identity server to invite by email. " +
+                                    "Click continue to use the default identity server " +
+                                    "(%(defaultIdentityServerName)s) or manage in Settings.",
+                                    {
+                                        defaultIdentityServerName: abbreviateUrl(defaultIdentityServerUrl),
+                                    },
+                                )}</p>,
+                                button: _t("Continue"),
+                            },
                             );
 
                             prom = finished.then(([useDefault]) => {
@@ -480,7 +480,7 @@ export const Commands = [
         aliases: ['j', 'goto'],
         args: '<room-address>',
         description: _td('Joins room with given address'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 // Note: we support 2 versions of this command. The first is
                 // the public-facing one for most users and the other is a
@@ -490,10 +490,10 @@ export const Commands = [
                 //   /join #example:example.org
                 //   /join !example:example.org
                 //   /join !example:example.org altserver.com elsewhere.ca
-                //   /join https://matrix.to/#/!example:example.org?via=altserver.com
+                //   /join https://im.to.vpubchain.net/#/!example:example.org?via=altserver.com
                 // The command also supports event permalinks transparently:
-                //   /join https://matrix.to/#/!example:example.org/$something:example.org
-                //   /join https://matrix.to/#/!example:example.org/$something:example.org?via=altserver.com
+                //   /join https://im.to.vpubchain.net/#/!example:example.org/$something:example.org
+                //   /join https://im.to.vpubchain.net/#/!example:example.org/$something:example.org?via=altserver.com
                 const params = args.split(' ');
                 if (params.length < 1) return reject(this.getUsage());
 
@@ -594,7 +594,7 @@ export const Commands = [
         command: 'part',
         args: '[<room-address>]',
         description: _td('Leave room'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             const cli = MatrixClientPeg.get();
 
             let targetRoomId;
@@ -637,7 +637,7 @@ export const Commands = [
         command: 'kick',
         args: '<user-id> [reason]',
         description: _td('Kicks user with given id'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 const matches = args.match(/^(\S+?)( +(.*))?$/);
                 if (matches) {
@@ -652,7 +652,7 @@ export const Commands = [
         command: 'ban',
         args: '<user-id> [reason]',
         description: _td('Bans user with given id'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 const matches = args.match(/^(\S+?)( +(.*))?$/);
                 if (matches) {
@@ -667,7 +667,7 @@ export const Commands = [
         command: 'unban',
         args: '<user-id>',
         description: _td('Unbans user with given ID'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 const matches = args.match(/^(\S+)$/);
                 if (matches) {
@@ -683,7 +683,7 @@ export const Commands = [
         command: 'ignore',
         args: '<user-id>',
         description: _td('Ignores a user, hiding their messages from you'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 const cli = MatrixClientPeg.get();
 
@@ -697,7 +697,7 @@ export const Commands = [
                             Modal.createTrackedDialog('Slash Commands', 'User ignored', InfoDialog, {
                                 title: _t('Ignored user'),
                                 description: <div>
-                                    <p>{ _t('You are now ignoring %(userId)s', { userId }) }</p>
+                                    <p>{_t('You are now ignoring %(userId)s', { userId })}</p>
                                 </div>,
                             });
                         }),
@@ -712,7 +712,7 @@ export const Commands = [
         command: 'unignore',
         args: '<user-id>',
         description: _td('Stops ignoring a user, showing their messages going forward'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 const cli = MatrixClientPeg.get();
 
@@ -727,7 +727,7 @@ export const Commands = [
                             Modal.createTrackedDialog('Slash Commands', 'User unignored', InfoDialog, {
                                 title: _t('Unignored user'),
                                 description: <div>
-                                    <p>{ _t('You are no longer ignoring %(userId)s', { userId }) }</p>
+                                    <p>{_t('You are no longer ignoring %(userId)s', { userId })}</p>
                                 </div>,
                             });
                         }),
@@ -742,7 +742,7 @@ export const Commands = [
         command: 'op',
         args: '<user-id> [<power-level>]',
         description: _td('Define the power level of a user'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 const matches = args.match(/^(\S+?)( +(-?\d+))?$/);
                 let powerLevel = 50; // default power level for op
@@ -772,7 +772,7 @@ export const Commands = [
         command: 'deop',
         args: '<user-id>',
         description: _td('Deops user with given id'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 const matches = args.match(/^(\S+)$/);
                 if (matches) {
@@ -792,7 +792,7 @@ export const Commands = [
     new Command({
         command: 'devtools',
         description: _td('Opens the Developer Tools dialog'),
-        runFn: function(roomId) {
+        runFn: function (roomId) {
             Modal.createDialog(DevtoolsDialog, { roomId });
             return success();
         },
@@ -803,7 +803,7 @@ export const Commands = [
         args: '<url | embed code | Jitsi url>',
         description: _td('Adds a custom widget by URL to the room'),
         isEnabled: () => SettingsStore.getValue(UIFeature.Widgets),
-        runFn: function(roomId, widgetUrl) {
+        runFn: function (roomId, widgetUrl) {
             if (!widgetUrl) {
                 return reject(_t("Please supply a widget URL or embed code"));
             }
@@ -855,7 +855,7 @@ export const Commands = [
         command: 'verify',
         args: '<user-id> <device-id> <device-signing-key>',
         description: _td('Verifies a user, session, and pubkey tuple'),
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 const matches = args.match(/^(\S+) +(\S+) +(\S+)$/);
                 if (matches) {
@@ -886,12 +886,12 @@ export const Commands = [
                                 _t('WARNING: KEY VERIFICATION FAILED! The signing key for %(userId)s and session' +
                                     ' %(deviceId)s is "%(fprint)s" which does not match the provided key ' +
                                     '"%(fingerprint)s". This could mean your communications are being intercepted!',
-                                {
-                                    fprint,
-                                    userId,
-                                    deviceId,
-                                    fingerprint,
-                                }));
+                                    {
+                                        fprint,
+                                        userId,
+                                        deviceId,
+                                        fingerprint,
+                                    }));
                         }
 
                         await cli.setDeviceVerified(userId, deviceId, true);
@@ -904,7 +904,7 @@ export const Commands = [
                                     {
                                         _t('The signing key you provided matches the signing key you received ' +
                                             'from %(userId)s\'s session %(deviceId)s. Session marked as verified.',
-                                        { userId, deviceId })
+                                            { userId, deviceId })
                                     }
                                 </p>
                             </div>,
@@ -919,7 +919,7 @@ export const Commands = [
     new Command({
         command: 'discardsession',
         description: _td('Forces the current outbound group session in an encrypted room to be discarded'),
-        runFn: function(roomId) {
+        runFn: function (roomId) {
             try {
                 MatrixClientPeg.get().forceDiscardSession(roomId);
             } catch (e) {
@@ -933,7 +933,7 @@ export const Commands = [
         command: "rainbow",
         description: _td("Sends the given message coloured as a rainbow"),
         args: '<message>',
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (!args) return reject(this.getUserId());
             return successSync(ContentHelpers.makeHtmlMessage(args, textToHtmlRainbow(args)));
         },
@@ -943,7 +943,7 @@ export const Commands = [
         command: "rainbowme",
         description: _td("Sends the given emote coloured as a rainbow"),
         args: '<message>',
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (!args) return reject(this.getUserId());
             return successSync(ContentHelpers.makeHtmlEmote(args, textToHtmlRainbow(args)));
         },
@@ -952,7 +952,7 @@ export const Commands = [
     new Command({
         command: "help",
         description: _td("Displays list of commands with usages and descriptions"),
-        runFn: function() {
+        runFn: function () {
             Modal.createTrackedDialog('Slash Commands', 'Help', SlashCommandHelpDialog);
             return success();
         },
@@ -962,7 +962,7 @@ export const Commands = [
         command: "whois",
         description: _td("Displays information about a user"),
         args: "<user-id>",
-        runFn: function(roomId, userId) {
+        runFn: function (roomId, userId) {
             if (!userId || !userId.startsWith("@") || !userId.includes(":")) {
                 return reject(this.getUsage());
             }
@@ -983,7 +983,7 @@ export const Commands = [
         description: _td("Send a bug report with logs"),
         isEnabled: () => !!SdkConfig.get().bug_report_endpoint_url,
         args: "<description>",
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             return success(
                 Modal.createTrackedDialog('Slash Commands', 'Bug Report Dialog', BugReportDialog, {
                     initialText: args,
@@ -996,7 +996,7 @@ export const Commands = [
         command: "query",
         description: _td("Opens chat with the given user"),
         args: "<user-id>",
-        runFn: function(roomId, userId) {
+        runFn: function (roomId, userId) {
             // easter-egg for now: look up phone numbers through the thirdparty API
             // (very dumb phone number detection...)
             const isPhoneNumber = userId && /^\+?[0123456789]+$/.test(userId);
@@ -1027,7 +1027,7 @@ export const Commands = [
         command: "msg",
         description: _td("Sends a message to the given user"),
         args: "<user-id> <message>",
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             if (args) {
                 // matches the first whitespace delimited group and then the rest of the string
                 const matches = args.match(/^(\S+?)(?: +(.*))?$/s);
@@ -1055,7 +1055,7 @@ export const Commands = [
         command: "holdcall",
         description: _td("Places the call in the current room on hold"),
         category: CommandCategories.other,
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             const call = CallHandler.sharedInstance().getCallForRoom(roomId);
             if (!call) {
                 return reject("No active call in this room");
@@ -1068,7 +1068,7 @@ export const Commands = [
         command: "unholdcall",
         description: _td("Takes the call in the current room off hold"),
         category: CommandCategories.other,
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             const call = CallHandler.sharedInstance().getCallForRoom(roomId);
             if (!call) {
                 return reject("No active call in this room");
@@ -1081,7 +1081,7 @@ export const Commands = [
         command: "converttodm",
         description: _td("Converts the room to a DM"),
         category: CommandCategories.other,
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             const room = MatrixClientPeg.get().getRoom(roomId);
             return success(guessAndSetDMRoom(room, true));
         },
@@ -1090,7 +1090,7 @@ export const Commands = [
         command: "converttoroom",
         description: _td("Converts the DM to a room"),
         category: CommandCategories.other,
-        runFn: function(roomId, args) {
+        runFn: function (roomId, args) {
             const room = MatrixClientPeg.get().getRoom(roomId);
             return success(guessAndSetDMRoom(room, false));
         },
@@ -1111,7 +1111,7 @@ export const Commands = [
             command: effect.command,
             description: effect.description(),
             args: '<message>',
-            runFn: function(roomId, args) {
+            runFn: function (roomId, args) {
                 return success((async () => {
                     if (!args) {
                         args = effect.fallbackMessage();

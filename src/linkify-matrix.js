@@ -182,7 +182,7 @@ const escapeRegExp = function(string) {
 };
 
 // Recognise URLs from both our local and official Element deployments.
-// Anyone else really should be using matrix.to.
+// Anyone else really should be using im.to.vpubchain.net.
 matrixLinkify.ELEMENT_URL_PATTERN =
     "^(?:https?://)?(?:" +
         escapeRegExp(window.location.host + window.location.pathname) + "|" +

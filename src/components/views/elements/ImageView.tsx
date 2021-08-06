@@ -277,7 +277,7 @@ export default class ImageView extends React.Component<IProps, IState> {
 
     private onPermalinkClicked = (ev: React.MouseEvent) => {
         // This allows the permalink to be opened in a new tab/window or copied as
-        // matrix.to, but also for it to enable routing within Element when clicked.
+        // im.to.vpubchain.net, but also for it to enable routing within Element when clicked.
         ev.preventDefault();
         dis.dispatch({
             action: 'view_room',
@@ -351,7 +351,7 @@ export default class ImageView extends React.Component<IProps, IState> {
 
         return (
             <React.Fragment>
-                { contextMenu }
+                {contextMenu}
             </React.Fragment>
         );
     }
@@ -362,7 +362,7 @@ export default class ImageView extends React.Component<IProps, IState> {
 
         let cursor;
         if (this.state.moving) {
-            cursor= "grabbing";
+            cursor = "grabbing";
         } else if (zoomingDisabled) {
             cursor = "default";
         } else if (this.state.zoom === this.state.minZoom) {
@@ -399,7 +399,7 @@ export default class ImageView extends React.Component<IProps, IState> {
             const senderName = mxEvent.sender ? mxEvent.sender.name : mxEvent.getSender();
             const sender = (
                 <div className="mx_ImageView_info_sender">
-                    { senderName }
+                    {senderName}
                 </div>
             );
             const messageTimestamp = (
@@ -427,10 +427,10 @@ export default class ImageView extends React.Component<IProps, IState> {
 
             info = (
                 <div className="mx_ImageView_info_wrapper">
-                    { avatar }
+                    {avatar}
                     <div className="mx_ImageView_info">
-                        { sender }
-                        { messageTimestamp }
+                        {sender}
+                        {messageTimestamp}
                     </div>
                 </div>
             );
@@ -486,10 +486,10 @@ export default class ImageView extends React.Component<IProps, IState> {
                 ref={this.focusLock}
             >
                 <div className="mx_ImageView_panel">
-                    { info }
+                    {info}
                     <div className="mx_ImageView_toolbar">
-                        { zoomOutButton }
-                        { zoomInButton }
+                        {zoomOutButton}
+                        {zoomInButton}
                         <AccessibleTooltipButton
                             className="mx_ImageView_button mx_ImageView_button_rotateCCW"
                             title={_t("Rotate Left")}
@@ -505,13 +505,13 @@ export default class ImageView extends React.Component<IProps, IState> {
                             title={_t("Download")}
                             onClick={this.onDownloadClick}
                         />
-                        { contextMenuButton }
+                        {contextMenuButton}
                         <AccessibleTooltipButton
                             className="mx_ImageView_button mx_ImageView_button_close"
                             title={_t("Close")}
                             onClick={this.props.onFinished}
                         />
-                        { this.renderContextMenu() }
+                        {this.renderContextMenu()}
                     </div>
                 </div>
                 <div

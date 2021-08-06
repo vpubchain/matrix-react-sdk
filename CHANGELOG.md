@@ -797,7 +797,7 @@ related to file upload. When uploading a file, the local file preview can lead
 to execution of scripts embedded in the uploaded file, but only after several
 user interactions to open the preview in a separate tab. This only impacts the
 local user while in the process of uploading. It cannot be exploited remotely
-or by other users. Thanks to [Muhammad Zaid Ghifari](https://github.com/MR-ZHEEV) 
+or by other users. Thanks to [Muhammad Zaid Ghifari](https://github.com/MR-ZHEEV)
 for responsibly disclosing this via Matrix's Security Disclosure Policy.
 
 ## All changes
@@ -4393,7 +4393,7 @@ Changes in [2.3.0-rc.1](https://github.com/matrix-org/matrix-react-sdk/releases/
    [\#4261](https://github.com/matrix-org/matrix-react-sdk/pull/4261)
  * Improve naming of Jitsi conferences
    [\#4251](https://github.com/matrix-org/matrix-react-sdk/pull/4251)
- * Handle matrix.to user permalink in-room rather than solo
+ * Handle im.to.vpubchain.net user permalink in-room rather than solo
    [\#4245](https://github.com/matrix-org/matrix-react-sdk/pull/4245)
  * Fix: filter room list (again) by canonical and alternative aliases
    [\#4260](https://github.com/matrix-org/matrix-react-sdk/pull/4260)
@@ -4792,7 +4792,7 @@ Changes in [2.1.0-rc.2](https://github.com/matrix-org/matrix-react-sdk/releases/
 =============================================================================================================
 [Full Changelog](https://github.com/matrix-org/matrix-react-sdk/compare/v2.1.0-rc.1...v2.1.0-rc.2)
 
- * Fix error in previous attempt to upgrade JS SDK 
+ * Fix error in previous attempt to upgrade JS SDK
 
 Changes in [2.1.0-rc.1](https://github.com/matrix-org/matrix-react-sdk/releases/tag/v2.1.0-rc.1) (2020-02-13)
 =============================================================================================================
@@ -8540,7 +8540,7 @@ Changes in [0.14.5-rc.1](https://github.com/matrix-org/matrix-react-sdk/releases
    [\#1936](https://github.com/matrix-org/matrix-react-sdk/pull/1936)
  * only run e2e tests on PRs targeted on develop
    [\#2261](https://github.com/matrix-org/matrix-react-sdk/pull/2261)
- * Fix and test matrix.to alias permalinks
+ * Fix and test im.to.vpubchain.net alias permalinks
    [\#2254](https://github.com/matrix-org/matrix-react-sdk/pull/2254)
  * click-through svg on tag tile context menu to make it less weird
    [\#2257](https://github.com/matrix-org/matrix-react-sdk/pull/2257)
@@ -8548,7 +8548,7 @@ Changes in [0.14.5-rc.1](https://github.com/matrix-org/matrix-react-sdk/releases
    [\#2256](https://github.com/matrix-org/matrix-react-sdk/pull/2256)
  * Update babel-eslint to 8.1.1
    [\#2255](https://github.com/matrix-org/matrix-react-sdk/pull/2255)
- * Support routing matrix.to links to joinable rooms
+ * Support routing im.to.vpubchain.net links to joinable rooms
    [\#2250](https://github.com/matrix-org/matrix-react-sdk/pull/2250)
  * Fix autoreplacement of ascii emoji
    [\#2253](https://github.com/matrix-org/matrix-react-sdk/pull/2253)
@@ -9223,7 +9223,7 @@ Changes in [0.12.8-rc.1](https://github.com/matrix-org/matrix-react-sdk/releases
    [\#1987](https://github.com/matrix-org/matrix-react-sdk/pull/1987)
  * once command has a space, strict match instead of fuzzy match
    [\#1985](https://github.com/matrix-org/matrix-react-sdk/pull/1985)
- * Fix matrix.to URL RegExp
+ * Fix im.to.vpubchain.net URL RegExp
    [\#1986](https://github.com/matrix-org/matrix-react-sdk/pull/1986)
  * Fix blank sticker picker
    [\#1984](https://github.com/matrix-org/matrix-react-sdk/pull/1984)
@@ -9243,7 +9243,7 @@ Changes in [0.12.8-rc.1](https://github.com/matrix-org/matrix-react-sdk/releases
    [\#1973](https://github.com/matrix-org/matrix-react-sdk/pull/1973)
  * Track decryption success/failure rate with piwik
    [\#1949](https://github.com/matrix-org/matrix-react-sdk/pull/1949)
- * route matrix.to/#/+... links internally (not just group ids)
+ * route im.to.vpubchain.net/#/+... links internally (not just group ids)
    [\#1975](https://github.com/matrix-org/matrix-react-sdk/pull/1975)
  * implement `hitting enter after Ctrl-K should switch to the first result`
    [\#1976](https://github.com/matrix-org/matrix-react-sdk/pull/1976)
@@ -11492,7 +11492,7 @@ Changes in [0.8.7-rc.1](https://github.com/matrix-org/matrix-react-sdk/releases/
    [\#741](https://github.com/matrix-org/matrix-react-sdk/pull/741)
  * Clarify "No devices" message
    [\#740](https://github.com/matrix-org/matrix-react-sdk/pull/740)
- * Change timestamp permalinks to matrix.to
+ * Change timestamp permalinks to im.to.vpubchain.net
    [\#735](https://github.com/matrix-org/matrix-react-sdk/pull/735)
  * Fix resend bar and "send anyway" in UDD
    [\#734](https://github.com/matrix-org/matrix-react-sdk/pull/734)
@@ -11887,11 +11887,11 @@ Changes in [0.8.0](https://github.com/matrix-org/matrix-react-sdk/releases/tag/v
    [\#545](https://github.com/matrix-org/matrix-react-sdk/pull/545)
  * Show the error that occured when trying to reach scalar
    [\#543](https://github.com/matrix-org/matrix-react-sdk/pull/543)
- * Don't do URL previews for matrix.to
+ * Don't do URL previews for im.to.vpubchain.net
    [\#541](https://github.com/matrix-org/matrix-react-sdk/pull/541)
  * Fix NPE in LoggedInView
    [\#540](https://github.com/matrix-org/matrix-react-sdk/pull/540)
- * Make room alias & user ID links matrix.to links
+ * Make room alias & user ID links im.to.vpubchain.net links
    [\#538](https://github.com/matrix-org/matrix-react-sdk/pull/538)
  * Make MemberInfo use the matrixclient from the context
    [\#537](https://github.com/matrix-org/matrix-react-sdk/pull/537)
@@ -12152,7 +12152,7 @@ Changes in [0.6.5](https://github.com/matrix-org/matrix-react-sdk/releases/tag/v
 
  * re-add leave button in RoomSettings
  * add /user URLs
- * recognise matrix.to links and other vector links
+ * recognise im.to.vpubchain.net links and other vector links
  * fix linkify dependency
  * fix avatar clicking in MemberInfo
  * fix emojione sizing

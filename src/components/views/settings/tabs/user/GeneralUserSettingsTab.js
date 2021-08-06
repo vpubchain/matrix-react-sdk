@@ -459,7 +459,7 @@ export default class GeneralUserSettingsTab extends React.Component {
                 { this._renderLanguageSection() }
                 { supportsMultiLanguageSpellCheck ? this._renderSpellCheckSection() : null }
                 { discoverySection }
-                { this._renderIntegrationManagerSection() /* Has its own title */ }
+                { /* { this._renderIntegrationManagerSection() } */ }
                 { accountManagementSection }
             </div>
         );

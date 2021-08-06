@@ -39,7 +39,7 @@ interface IProps {
 @replaceableComponent("views.rooms.ReplyTile")
 export default class ReplyTile extends React.PureComponent<IProps> {
     static defaultProps = {
-        onHeightChanged: () => {},
+        onHeightChanged: () => { },
     };
 
     componentDidMount() {
@@ -73,7 +73,7 @@ export default class ReplyTile extends React.PureComponent<IProps> {
         // The exception being the link wrapping the reply
         if (clickTarget.tagName.toLowerCase() !== "a" || clickTarget.closest("a") === null) {
             // This allows the permalink to be opened in a new tab/window or copied as
-            // matrix.to, but also for it to enable routing within Riot when clicked.
+            // im.to.vpubchain.net, but also for it to enable routing within Riot when clicked.
             e.preventDefault();
             dis.dispatch({
                 action: 'view_room',
@@ -96,7 +96,7 @@ export default class ReplyTile extends React.PureComponent<IProps> {
             const { mxEvent } = this.props;
             console.warn(`Event type not supported: type:${mxEvent.getType()} isState:${mxEvent.isState()}`);
             return <div className="mx_ReplyTile mx_ReplyTile_info mx_MNoticeBody">
-                { _t('This event could not be displayed') }
+                {_t('This event could not be displayed')}
             </div>;
         }
 
@@ -142,7 +142,7 @@ export default class ReplyTile extends React.PureComponent<IProps> {
         return (
             <div className={classes}>
                 <a href={permalink} onClick={this.onClick}>
-                    { sender }
+                    {sender}
                     <EventTileType
                         ref="tile"
                         mxEvent={this.props.mxEvent}

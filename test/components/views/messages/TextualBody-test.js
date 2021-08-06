@@ -209,7 +209,7 @@ describe("<TextualBody />", () => {
                     body: "Hey User",
                     msgtype: "m.text",
                     format: "org.matrix.custom.html",
-                    formatted_body: "Hey <a href=\"https://matrix.to/#/@user:server\">Member</a>",
+                    formatted_body: "Hey <a href=\"https://im.to.vpubchain.net/#/@user:server\">Member</a>",
                 },
                 event: true,
             });
@@ -232,12 +232,12 @@ describe("<TextualBody />", () => {
                 user: "sender",
                 content: {
                     body:
-                        "An [event link](https://matrix.to/#/!ZxbRYPQXDXKGmDnJNg:example.com/" +
+                        "An [event link](https://im.to.vpubchain.net/#/!ZxbRYPQXDXKGmDnJNg:example.com/" +
                         "$16085560162aNpaH:example.com?via=example.com) with text",
                     msgtype: "m.text",
                     format: "org.matrix.custom.html",
                     formatted_body:
-                        "An <a href=\"https://matrix.to/#/!ZxbRYPQXDXKGmDnJNg:example.com/" +
+                        "An <a href=\"https://im.to.vpubchain.net/#/!ZxbRYPQXDXKGmDnJNg:example.com/" +
                         "$16085560162aNpaH:example.com?via=example.com\">event link</a> with text",
                 },
                 event: true,
@@ -261,12 +261,12 @@ describe("<TextualBody />", () => {
                 user: "sender",
                 content: {
                     body:
-                        "A [room link](https://matrix.to/#/!ZxbRYPQXDXKGmDnJNg:example.com" +
+                        "A [room link](https://im.to.vpubchain.net/#/!ZxbRYPQXDXKGmDnJNg:example.com" +
                         "?via=example.com&via=bob.com) with vias",
                     msgtype: "m.text",
                     format: "org.matrix.custom.html",
                     formatted_body:
-                        "A <a href=\"https://matrix.to/#/!ZxbRYPQXDXKGmDnJNg:example.com" +
+                        "A <a href=\"https://im.to.vpubchain.net/#/!ZxbRYPQXDXKGmDnJNg:example.com" +
                         "?via=example.com&amp;via=bob.com\">room link</a> with vias",
                 },
                 event: true,
